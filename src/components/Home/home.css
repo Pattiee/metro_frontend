@@ -1,0 +1,10 @@
+.home-page {
+    /* background-color: var(--primary-color); */
+    /* color: var(--secondary-color); */
+    width: 100%;
+    min-height: 100vh;
+    min-width: 100%;
+    overflow-x: hidden;
+    margin: auto;
+    background: transparent;
+}

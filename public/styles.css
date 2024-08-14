@@ -1,0 +1,64 @@
+* {
+    font-family: sans-serif;
+}
+
+:root {
+    font-family: Inter, Poppins, system-ui, Avenir, Helvetica, Arial, sans-serif;
+    line-height: 1.5;
+    font-weight: 400;
+    color-scheme: light dark;
+    /* color: rgba(255, 255, 255, 0.87); */
+    /* background-color: #692d2d; */
+    font-synthesis: none;
+    text-rendering: optimizeLegibility;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    /* Variable declarations */
+    --blue: #061609;
+    --blue1: #00706F;
+    --blue2: #007BFF;
+    --navy-blue: #202033;
+    --indigo: #6610F2;
+    --purple: #6F42C1;
+    --pink: #E83E8C;
+    --red: #EF3545;
+    --red2: #D13232;
+    --red3: #ff4727de;
+    --red4: rgba(255, 148, 41, 0.9);
+    --red5: rgba(255, 182, 70, 0.98);
+    --orange: #FD7E14;
+    --yellow: #FFC107;
+    --green: #28A745;
+    --green2: #00906F;
+    --teal: #20C997;
+    --cyan: #17A2B8;
+    --white: #FFFFFF;
+    --gray: #6C757D;
+    --gray-dark: #343A40;
+    --primary: #428BCA;
+    --secondary: #6C757D;
+    --success: #5CB85C;
+    --info: #5BC0DE;
+    --warning: #F0AD4E;
+    --danger: #D9534F;
+    --light: #F8F9FA;
+    --dark: #343A40;
+    --dark-original: #343A40;
+    --maroon: maroon;
+    --gold: gold;
+    --darkred: darkred;
+    --skyblue: skyblue;
+    --black: #000000;
+    --red1: rgba(255, 181, 70, 0.938);
+    --primary-color: var(--red1);
+}
+
+html.light {
+    --background-color: var(--white);
+    --color: var(--dark);
+}
+
+html.dark {
+    --background-color: var(--dark);
+    --color: white;
+}

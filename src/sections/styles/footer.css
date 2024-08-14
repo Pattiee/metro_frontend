@@ -1,0 +1,43 @@
+section.footer-section {
+    display: flex;
+    width: 100vw;
+    height: 100vh;
+    border-top: 1px solid var(--primary-color);
+}
+
+section>.footer {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    bottom: 0;
+    margin-top: auto;
+}
+
+section>.footer>.footer-content {
+    display: flex;
+    flex-direction: row;
+    height: 80%;
+    top: 0;
+    margin: 2.5rem 0 1rem 0;
+    width: 100vw;
+}
+
+section>.footer>.copyright-section {
+    display: flex;
+    flex-direction: row;
+    height: 20%;
+    bottom: 0;
+    margin: auto 1px;
+    justify-content: space-between;
+}
+
+section>.footer>.copyright-section>div {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    flex-wrap: wrap;
+    width: 20%;
+    max-width: 30%;
+    justify-content: center;
+    align-items: center;
+}

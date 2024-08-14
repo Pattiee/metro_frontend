@@ -1,0 +1,19 @@
+section.profile {
+    display: flex;
+    flex-direction: column;
+    width: 100vw;
+    min-width: 66vw;
+    align-items: center;
+    height: 100vh;
+    min-height: 100vh;
+}
+
+section.profile>section.profile-info {
+    display: flex;
+    flex-direction: column;
+    width: 80vw;
+    min-width: 66vw;
+    padding: 23px 17px;
+    height: 100%;
+    min-height: 100vh;
+}
