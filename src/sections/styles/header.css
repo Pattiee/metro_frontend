@@ -1,8 +1,0 @@
-section.header {
-    display: flex;
-    height: 18vh;
-    justify-content: center;
-    width: 100%;
-    max-width: 100%;
-    /* background-color: var(--primary-color); */
-}

@@ -1,6 +1,5 @@
 import React,{ useState, useEffect } from 'react';
 import { Outlet } from 'react-router-dom';
-import Footer from '../sections/Footer';
 import { useAuth } from '../hooks/useAuth';
 
 const Layout = () => {
