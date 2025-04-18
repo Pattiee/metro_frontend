@@ -75,14 +75,7 @@ const Home = () => {
       <section className="py-12 px-6 bg-gray-50">
         <h2 className="text-2xl font-semibold mb-6 text-orange-600">Your Favourites</h2>
         <div className="grid grid-cols-2 md:grid-cols-4 gap-6">
-          {[...Array(4)].map((_, idx) => (
-            <div key={idx} className="bg-white shadow rounded-lg p-4 hover:shadow-lg transition">
-              <div className="w-full h-40 bg-gray-200 mb-4 rounded-lg"></div>
-              <h3 className="text-lg font-medium">Favourite {idx + 1}</h3>
-              <p className="text-sm text-gray-500">Category</p>
-              <p className="mt-2 font-bold text-orange-500">$19.99</p>
-            </div>
-          ))}
+          {products?.map(product => (<ProductCard key={product.id} product={product} onAddToCart={handleAddToCart}/>))}
         </div>
       </section>
 
@@ -104,14 +97,7 @@ const Home = () => {
         <div className="py-12 px-6">
           {/* <h2 className="text-2xl font-semibold mb-6 text-orange-600">Featured Products</h2> */}
           <div className="grid grid-cols-2 md:grid-cols-4 gap-6">
-            {[...Array(4)].map((_, idx) => (
-              <div key={idx} className="bg-white shadow rounded-lg p-4 hover:shadow-lg transition">
-                <div className="w-full h-40 bg-gray-200 mb-4 rounded-lg"></div>
-                <h3 className="text-lg font-medium">Product {idx + 1}</h3>
-                <p className="text-sm text-gray-500">Category</p>
-                <p className="mt-2 font-bold text-orange-500">$29.99</p>
-              </div>
-            ))}
+            {products?.map(product => (<ProductCard key={product.id} product={product} onAddToCart={handleAddToCart}/>))}
           </div>
         </div>
       </section>
