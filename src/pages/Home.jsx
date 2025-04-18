@@ -12,6 +12,7 @@ const Home = () => {
       name: "Sugar",
       category: "Food",
       price: 29.99,
+      discount: 20, // <-- percent
       image: "https://via.placeholder.com/300" // Replace with actual image URL
     },
     {
@@ -19,21 +20,26 @@ const Home = () => {
       name: "Dell Server T310",
       category: "Servers",
       price: 19.99,
+      discount: 27,
       image: "https://via.placeholder.com/300"
     },
     {
       id: 3,
-      name: "Product 3",
-      category: "Category C",
-      price: 39.99,
-      image: "https://via.placeholder.com/300"
+      name: 'MetroFit Pro Wireless',
+      category: 'Audio Gear',
+      price: 120.0,
+      discount: 25,
+      image: 'https://via.placeholder.com/400',
+      offerExpiresAt: '2025-04-20T23:59:59Z' // use a real future date!
     },
     {
       id: 4,
-      name: "Product 4",
-      category: "Category D",
-      price: 49.99,
-      image: "https://via.placeholder.com/300"
+      name: 'MetroFit Max',
+      category: 'Headphones',
+      price: 100.0,
+      discount: 30,
+      image: 'https://via.placeholder.com/400',
+      offerExpiresAt: '2025-04-19T23:59:59Z'
     }
   ];
 
