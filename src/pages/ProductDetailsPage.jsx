@@ -36,12 +36,12 @@ const ProductDetailsPage = () => {
 
   return (
     <motion.div
-      className="py-12 px-6 max-w-6xl mx-auto"
+      className="py-12 px-6 max-w-6xl mx-auto bg-gray-50"
       initial={{ opacity: 0, y: 30 }}
       animate={{ opacity: 1, y: 0 }}
-      transition={{ duration: 0.5, ease: 'easeOut' }}
-    >
-      <div className="grid md:grid-cols-2 gap-10 bg-white p-6 rounded-xl shadow-sm">
+      transition={{ duration: 0.5, ease: 'easeOut' }}>
+      
+      <div className="grid md:grid-cols-2 gap-10 bg-white p-6 rounded-xl shadow-md">
         <div>
           <img
             src={product.image}
