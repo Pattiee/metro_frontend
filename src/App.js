@@ -5,18 +5,22 @@ import { useAuth } from './hooks/useAuth';
 // Pages
 import Home from './pages/Home';
 import NotFound from './pages/NotFound';
-import Auth from './pages/Auth'
+import Auth from './pages/Auth';
+import ProductDetailsPage from './pages/ProductDetailsPage';
 
 
 const App = () => {
   const { user } = useAuth();
 
   return (
-    <Routes>
-      <Route index element={<Home />} />
-      <Route path='/auth' element={<Auth />} />
-      <Route path="*" element={ <NotFound/> } />
-    </Routes>
+    <div className="min-h-screen bg-gray-50 text-gray-900">
+      <Routes>
+        <Route index element={<Home />} />
+        <Route path='/auth' element={<Auth />} />
+        <Route path="/products/:id" element={<ProductDetailsPage />} />
+        <Route path="*" element={ <NotFound/> } />
+      </Routes>
+    </div>
   );
 };
 
