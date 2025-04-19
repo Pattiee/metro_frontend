@@ -35,7 +35,7 @@ const Navbar = () => {
       <div className="flex justify-between items-center">
         {/* Left Section: Logo */}
         <div className="flex items-center space-x-8">
-          <h1 className="text-xl font-bold">Metro Shop</h1>
+          <h1 className="text-xl font-bold">Metro</h1>
         </div>
 
         {/* Center Section: Desktop Menu */}

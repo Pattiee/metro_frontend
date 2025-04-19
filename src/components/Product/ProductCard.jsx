@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { motion } from 'framer-motion';
 
 const ProductCard = ({ product, onAddToCart }) => {
   const navigate = useNavigate();
@@ -7,9 +8,9 @@ const ProductCard = ({ product, onAddToCart }) => {
   const [progress, setProgress] = useState(100);
   const [offerExpired, setOfferExpired] = useState(false);
 
-  const discounted = product?.discount && product?.discount > 0;
+  const discounted = product?.percent_discount && product?.percent_discount > 0;
   const discountPrice = discounted
-    ? (product?.price - product?.price * (product?.discount / 100)).toFixed(2)
+    ? (product?.price - product?.price * (product?.percent_discount / 100)).toFixed(2)
     : product?.price;
 
   useEffect(() => {
@@ -45,7 +46,9 @@ const ProductCard = ({ product, onAddToCart }) => {
   }, [product?.offerExpiresAt]);
 
   const handleCardClick = () => {
-    navigate(`/products/${product?.id}`);
+    const targetProductId = (product?.productId == null || product?.productId === "") ? null : product?.productId;
+    if (targetProductId == null) return null;
+    navigate(`/product?id=${targetProductId}`);
   };
 
   const handleAddToCart = (e) => {
@@ -54,15 +57,18 @@ const ProductCard = ({ product, onAddToCart }) => {
   };
 
   return (
-    <div
+    <motion.div
       onClick={handleCardClick}
       className="bg-white shadow-md rounded-lg overflow-hidden hover:shadow-xl transition duration-300 ease-in-out cursor-pointer group relative"
+      initial={{ opacity: 0, y: 5 }}
+      animate={{ opacity: 1, y: 0 }}
+      transition={{ duration: 0.3, ease: 'easeOut' }}
     >
       {/* Badge Section */}
       <div className="absolute top-2 left-2 flex flex-col gap-1 z-10">
         {discounted && (
           <span className="bg-orange-500 text-white text-xs px-2 py-1 rounded-full">
-            -{product?.discount}%
+            -{product?.percent_discount}%
           </span>
         )}
         {product?.offerExpiresAt && (
@@ -78,7 +84,7 @@ const ProductCard = ({ product, onAddToCart }) => {
       <div
         className="w-full h-40 bg-gray-200 mb-4 rounded-t-lg"
         style={{
-          backgroundImage: `url(${product?.image})`,
+          backgroundImage: `url(${product?.imageUrl})`,
           backgroundSize: 'cover',
           backgroundPosition: 'center',
         }}
@@ -123,7 +129,7 @@ const ProductCard = ({ product, onAddToCart }) => {
           {offerExpired ? 'Expired' : 'Add to Cart'}
         </button>
       </div>
-    </div>
+    </motion.div>
   );
 };
 
