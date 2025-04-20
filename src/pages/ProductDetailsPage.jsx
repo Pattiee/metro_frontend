@@ -3,7 +3,8 @@ import { useSearchParams } from "react-router-dom"; // Use this to get the query
 import { motion } from 'framer-motion';
 import ProductReviews from '../components/Product/ProductReviews';
 import RelatedProducts from '../components/Product/RelatedProducts';
-import { getProductById } from '../services/products.service';
+import ProductDetails from '../components/Product/ProductDetails'
+import { getProductById, getProducts } from '../services/products.service';
 
 const ProductDetailsPage = () => {
   const [product, setProduct] = useState(null);
@@ -13,9 +14,11 @@ const ProductDetailsPage = () => {
   useEffect(() => {
     const fetchProduct = async () => {
       try {
-        const response = await getProductById(productId);
-        console.log(response?.data)
-        setProduct(response?.data); // Assuming response has product data
+        await getProducts({ id: productId }).then(res => {
+          setProduct(res?.data);
+        }).catch(err => {
+          console.error(err)
+        });
       } catch (err) {
         console.error("Error fetching product", err);
       }
@@ -127,7 +130,8 @@ const ProductDetailsPage = () => {
       </div>
 
 
-      {/* Reviews and Related Products Sections */}
+      {/* Reviews, Details and Related Products Sections */}
+      <ProductDetails product={product}/>
       <ProductReviews />
       <RelatedProducts />
     </motion.div>

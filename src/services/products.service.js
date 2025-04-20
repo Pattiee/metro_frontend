@@ -1,9 +1,25 @@
 import AxiosConfig from "../axiosConfig";
 
 
-// Get all products
-export const getProducts = async () => {
-  return await AxiosConfig.productsAxiosInstance.get();
+// Get products with optional filters
+export const getProducts = async ({ id, category, isFeatured }) => {
+  const params = {};
+
+  if (id != null || id !== undefined) params.id = id;
+  if (category) params.category = category;
+  if (isFeatured !== undefined) params.isFeatured = isFeatured;
+
+  return await AxiosConfig.productsAxiosInstance.get('', { params });
+};
+
+// Get featured products
+export const getFeaturedProducts = async () => {
+  return await AxiosConfig.productsAxiosInstance.get('/featured');
+};
+
+// Get featured products
+export const getFavoriteProducts = async (userId) => {
+  return await AxiosConfig.productsAxiosInstance.get(`/${userId}/favorites`);
 };
 
 // Get single product using a request param `id`

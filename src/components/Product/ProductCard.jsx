@@ -84,7 +84,7 @@ const ProductCard = ({ product, onAddToCart }) => {
       <div
         className="w-full h-40 bg-gray-200 mb-4 rounded-t-lg"
         style={{
-          backgroundImage: `url(${product?.imageUrl})`,
+          backgroundImage: `url(${product?.imageUrl ?? "https://via.placeholder.com/500"})`,
           backgroundSize: 'cover',
           backgroundPosition: 'center',
         }}

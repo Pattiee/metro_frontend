@@ -1,6 +1,6 @@
 import React, { createContext, useState, useEffect } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
-import AuthService from '../services/auth.service';
+import { login, logout } from '../services/auth.service';
 
 const AuthContext = createContext();
 
@@ -18,7 +18,7 @@ export const AuthProvider = ({ children }) => {
   const loginApiCall = async (userData) => {
     try
     {
-        AuthService.login(userData)
+        await login(userData)
         .then((resp) => {
           setUser(resp?.data);
           setIsAuthenticated(true);
@@ -42,8 +42,8 @@ export const AuthProvider = ({ children }) => {
     }
   }
 
-  const logout_user = () => {
-    AuthService.logout().then((res) => {
+  const logout_user = async () => {
+    await logout().then((res) => {
       if (res?.status === 200) {
         return setSuccessMsg(res?.data);
       }

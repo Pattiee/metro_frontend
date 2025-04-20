@@ -1,8 +1,23 @@
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
+import { login } from '../services/auth.service'
+import { useAuth } from '../hooks/useAuth';
 
 const Auth = () => {
   const [activeTab, setActiveTab] = useState('login');
+
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+  const loginData = {
+    email: '',
+    password: '',
+  }
+
+
+  const handleLogin = async (e) => {
+    console.log(email, password);
+    
+  }
 
   return (
     <div className="min-h-screen bg-gray-50 flex items-center justify-center px-4">
@@ -38,13 +53,14 @@ const Auth = () => {
 
         {/* Forms */}
         {activeTab === 'login' ? (
-          <form className="space-y-4">
+          <form className="space-y-4" onSubmit={handleLogin}>
             <div>
               <label className="block text-sm font-medium text-gray-700">Email</label>
               <input
                 type="email"
                 className="w-full px-4 py-2 mt-1 border rounded-lg focus:outline-none focus:ring-2 focus:ring-orange-500"
                 placeholder="you@example.com"
+                onChange={(e) => setEmail(e.target.value)}
               />
             </div>
             <div>
@@ -53,6 +69,7 @@ const Auth = () => {
                 type="password"
                 className="w-full px-4 py-2 mt-1 border rounded-lg focus:outline-none focus:ring-2 focus:ring-orange-500"
                 placeholder="••••••••"
+                onChange={(e) => setPassword(e.target.value)}
               />
             </div>
             <button

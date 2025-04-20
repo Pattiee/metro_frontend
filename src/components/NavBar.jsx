@@ -41,9 +41,7 @@ const Navbar = () => {
         {/* Center Section: Desktop Menu */}
         <div className="hidden md:flex items-center space-x-6 text-sm font-medium">
           <Link to="/" className="hover:underline cursor-pointer">Home</Link>
-          <Link to="/products" className="hover:underline cursor-pointer">Products</Link>
           <Link to="/favourites" className="hover:underline cursor-pointer">Favourites</Link>
-          <Link to="/categories" className="hover:underline cursor-pointer">Categories</Link>
           <Link to="/cart" className="hover:underline cursor-pointer">Cart</Link>
         </div>
 
