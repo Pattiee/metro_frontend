@@ -7,7 +7,4 @@ export const login = async (loginRequest) => await AxiosConfig.authAxiosInstance
 
 export const logout = async () => await AxiosConfig.authAxiosInstance.post("/logout");
 
-
-// const getCurrentUser = () => {
-//     return JSON.parse(localStorage.getItem("user"));
-// }
+export const getCurrentUser = async () => await AxiosConfig.authAxiosInstance.get('/me');

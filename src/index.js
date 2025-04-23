@@ -2,17 +2,35 @@ import React from 'react';
 import ReactDOM from 'react-dom/client';
 import './index.css';
 import App from './App';
+import { Provider, useSelector } from 'react-redux';
+import { store } from './store'
 import { AuthProvider } from './contexts/AuthProvider';
 import { BrowserRouter } from 'react-router-dom';
+
+
+// ThemeWrapper component
+const ThemeWrapper = ({ children }) => {
+  const theme = useSelector((state) => state?.theme?.theme);
+
+  React.useEffect(() => {
+    document.documentElement.classList.toggle('dark', theme === 'dark');
+  }, [theme]);
+
+  return children;
+}
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 
 root.render(
   <React.StrictMode>
-    <BrowserRouter>
-      <AuthProvider>
-        <App/>
-      </AuthProvider>
-    </BrowserRouter>
+    <Provider store={store}>
+      <ThemeWrapper>
+        <BrowserRouter>
+          <AuthProvider>
+            <App />
+          </AuthProvider>
+        </BrowserRouter>
+      </ThemeWrapper>
+    </Provider>
   </React.StrictMode>
 );

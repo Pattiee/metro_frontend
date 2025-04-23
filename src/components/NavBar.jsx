@@ -1,76 +1,116 @@
 import React, { useState, useEffect } from 'react';
-import { Link } from 'react-router-dom';
-import { Menu, X } from 'lucide-react'; // Lucide icons
+import { useDispatch, useSelector } from 'react-redux';
+import { ROLES } from '../roles';
+import { Link, useNavigate } from 'react-router-dom';
+import { Menu, Moon, Sun, X } from 'lucide-react';
+import { toggleTheme } from '../slices/themeSlice';
 
 const Navbar = () => {
+  const user = useSelector(state => state.auth.user);
+  const theme = useSelector(state => state?.theme?.theme);
+  const navigate = useNavigate();
+  const dispatch = useDispatch();
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [showNavbar, setShowNavbar] = useState(true);
   const [lastScrollY, setLastScrollY] = useState(0);
 
-  // Handle scroll behavior
   useEffect(() => {
     const handleScroll = () => {
       if (window.scrollY > lastScrollY) {
-        // Scrolling down
         setShowNavbar(false);
       } else {
-        // Scrolling up
         setShowNavbar(true);
       }
       setLastScrollY(window.scrollY);
     };
 
     window.addEventListener('scroll', handleScroll);
-    
-    // Cleanup event listener on component unmount
     return () => window.removeEventListener('scroll', handleScroll);
   }, [lastScrollY]);
 
   return (
-    <nav
-      className={`bg-orange-500 text-white px-6 py-4 shadow-md transition-all duration-200 ease-in-out fixed top-0 left-0 right-0 z-50 ${
-        showNavbar ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-[-100%]'
-      }`}
-    >
-      <div className="flex justify-between items-center">
-        {/* Left Section: Logo */}
-        <div className="flex items-center space-x-8">
-          <h1 className="text-xl font-bold">Metro</h1>
+    <>
+      <nav
+        className={`transition-all duration-300 ease-in-out fixed top-0 left-0 right-0 z-50 
+          ${showNavbar ? 'opacity-100 translate-y-0' : 'opacity-0 -translate-y-full'}
+          ${theme === 'light' ? 'bg-orange-500 text-white shadow-md' : 'bg-gray-900 text-white shadow-lg'}
+        `}
+      >
+        <div className="flex justify-between items-center px-6 py-4">
+          {/* Logo */}
+          <div className="text-xl font-bold">
+            <Link to="/" className="hover:opacity-80 transition">Metro</Link>
+          </div>
+
+          {/* Desktop Links */}
+          <div className="hidden md:flex items-center space-x-6 text-sm font-medium">
+            {user?.roles?.includes(ROLES.ADMIN) && (
+              <Link to="/admin" className="hover:underline">Admin Panel</Link>
+            )}
+            <Link to="/favourites" className="hover:underline">Favourites</Link>
+            <Link to="/cart" className="hover:underline">Cart</Link>
+          </div>
+
+          {/* Right Section */}
+          <div className="flex items-center gap-4">
+            {/* Theme Toggle */}
+            <button
+              onClick={() => dispatch(toggleTheme())}
+              className={`p-2 rounded-full transition
+                ${theme === 'light' ? 'bg-white text-orange-600 hover:bg-orange-100' : 'bg-gray-800 text-white hover:bg-gray-700'}
+              `}
+            >
+              {theme === 'light' ? <Moon size={18} /> : <Sun size={18} />}
+            </button>
+
+            {/* User or Login */}
+            {user?.username ? (
+              <span className="text-sm">Welcome {user.username}</span>
+            ) : (
+              <Link
+                to="/auth"
+                className="bg-white text-orange-600 px-4 py-2 rounded-full text-sm font-semibold hover:bg-orange-100 transition"
+              >
+                Login
+              </Link>
+            )}
+
+            {/* Mobile Menu Toggle */}
+            <div className="md:hidden">
+              <button onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}>
+                {isMobileMenuOpen ? <X size={24} /> : <Menu size={24} />}
+              </button>
+            </div>
+          </div>
         </div>
 
-        {/* Center Section: Desktop Menu */}
-        <div className="hidden md:flex items-center space-x-6 text-sm font-medium">
-          <Link to="/" className="hover:underline cursor-pointer">Home</Link>
-          <Link to="/favourites" className="hover:underline cursor-pointer">Favourites</Link>
-          <Link to="/cart" className="hover:underline cursor-pointer">Cart</Link>
-        </div>
-
-        {/* Right Section: Login Button */}
-        <div>
-          <Link to="/auth" className="bg-white text-orange-600 px-4 py-2 rounded-full font-semibold hover:bg-orange-100 transition">
-            Login
-          </Link>
-        </div>
-
-        {/* Mobile Menu Button */}
-        <div className="md:hidden">
-          <button onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)} className="text-white">
-            {isMobileMenuOpen ? <X size={24} /> : <Menu size={24} />}
-          </button>
-        </div>
-      </div>
-
-      {/* Mobile Menu */}
+        {/* Mobile Menu */}
+        {isMobileMenuOpen && (
+          <div
+            className={`fixed top-0 right-0 h-full w-2/3 max-w-xs z-40 md:hidden transition-transform duration-300 ease-in-out
+              ${isMobileMenuOpen ? 'translate-x-0' : 'translate-x-full'}
+              ${theme === 'light' ? 'bg-gray-100 text-gray-900' : 'bg-gray-800 text-white'}
+            `}
+          >
+            <div className="p-6 space-y-6">
+              <Link to="/" onClick={() => setIsMobileMenuOpen(false)} className="block">Home</Link>
+              <Link to="/products" onClick={() => setIsMobileMenuOpen(false)} className="block">Products</Link>
+              <Link to="/favourites" onClick={() => setIsMobileMenuOpen(false)} className="block">Favourites</Link>
+              <Link to="/categories" onClick={() => setIsMobileMenuOpen(false)} className="block">Categories</Link>
+              <Link to="/cart" onClick={() => setIsMobileMenuOpen(false)} className="block">Cart</Link>
+            </div>
+          </div>
+        )}
+      </nav>
+      
       {isMobileMenuOpen && (
-        <div className="md:hidden bg-white text-black p-4 space-y-4">
-          <Link to="/" className="block py-2">Home</Link>
-          <Link to="/products" className="block py-2">Products</Link>
-          <Link to="/favourites" className="block py-2">Favourites</Link>
-          <Link to="/categories" className="block py-2">Categories</Link>
-          <Link to="/cart" className="block py-2">Cart</Link>
-        </div>
+        <div
+          onClick={() => setIsMobileMenuOpen(false)}
+          className="fixed inset-0 bg-black bg-opacity-40 z-30 md:hidden"
+        />
       )}
-    </nav>
+
+      </>
   );
 };
 

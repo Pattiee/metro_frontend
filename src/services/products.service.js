@@ -1,11 +1,11 @@
 import AxiosConfig from "../axiosConfig";
 
 
-// Get products with optional filters
+// Get all products and/or with optional filters
 export const getProducts = async ({ id, category, isFeatured }) => {
   const params = {};
 
-  if (id != null || id !== undefined) params.id = id;
+  if (id != null && id !== undefined && id !== '') params.id = id;
   if (category) params.category = category;
   if (isFeatured !== undefined) params.isFeatured = isFeatured;
 
@@ -22,11 +22,14 @@ export const getFavoriteProducts = async (userId) => {
   return await AxiosConfig.productsAxiosInstance.get(`/${userId}/favorites`);
 };
 
-// Get single product using a request param `id`
+// Get single product using a request param id
+// Use getProducts with param id
 export const getProductById = async (id) => {
-  return await AxiosConfig.productsAxiosInstance.get('', {
-    params: { id } // Sending 'id' as a query parameter
-  });
+  if (id !== null && id !== "") {
+    const params = {}
+    params.id = id;
+    return await AxiosConfig.productsAxiosInstance.get('', { params });
+  }
 };
 
 // Delete product using path variable `id`

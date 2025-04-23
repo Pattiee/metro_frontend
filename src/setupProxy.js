@@ -1,13 +1,15 @@
 
-const { createProxyMiddleware } = require("http-proxy-middleware");
+const { createProxyMiddleware } = require('http-proxy-middleware');
 
 
 module.exports = function (app) {
-    app.use(
-        "/api",
+
+    // Proxy for user service
+    app.use( "/api",
         createProxyMiddleware({
-            target: "http://localhost:8081",
+            target: "https://localhost:9097", // user service backend url
             changeOrigin: true,
+            secure: true, // only in development
         })
-    )
+    );
 }
