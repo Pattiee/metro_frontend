@@ -11,6 +11,7 @@ import FloatingCart from './components/FloatingCart'
 
 // Pages
 import Home from './pages/Home';
+import Checkout from './pages/Checkout';
 import NotFound from './pages/NotFound';
 import AuthPage from './pages/AuthPage';
 import AdminDashboard from './pages/AdminDashboard'
@@ -32,6 +33,7 @@ const App = () => {
         <Route index element={<Home />} />
         <Route path='/auth' element={<AuthPage />} />
         <Route path="/product" element={<ProductDetailsPage />} />
+        <Route path='/checkout' element={ <Checkout/> } />
         <Route path='/cart' element={ <Cart/> } />
         <Route path="*" element={<NotFound />} />
         
