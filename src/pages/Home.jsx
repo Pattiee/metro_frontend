@@ -11,6 +11,7 @@ import { addItem, removeItem, clearCart } from '../slices/cartSlice'
 import { Button } from 'react-scroll';
 import toast from 'react-hot-toast';
 
+
 const Home = () => {
   const [message, setMessage] = useState('');
   const [filter, setFilter] = useState('');
@@ -23,15 +24,17 @@ const Home = () => {
   const dispatch = useDispatch();
 
   const loadProducts = async () => {
+    setMessage("Loading...");
     await getProducts({}).then(res => {
-      setProducts(res?.data);
-      console.log(res?.data);
+      setProducts(res.data);
     }).catch(err => {
       console.error("ERROR: " + err);
     }).finally(() => {
       setLoading(false);
-      if (products.length < 1) {
+      if (products.length <= 0) {
         setMessage("No products found");
+      } else {
+        setMessage('');
       }
     });
   }
@@ -42,16 +45,18 @@ const Home = () => {
       loadProducts();
       return;
     } else {
+      setMessage("Loading...");
       await getProducts({ category: category }).then(res => {
-        setProducts(res?.data);
+        setProducts(res.data);
         setFilter(category);
-        console.log(filter);
       }).catch(err => {
         console.error("ERROR: " + err);
       }).finally(() => {
         setLoading(false);
-        if (products.length < 1) {
+        if (products.length <= 0) {
           setMessage("No products found");
+        } else {
+          setMessage('');
         }
       });
     }
@@ -135,7 +140,7 @@ const Home = () => {
         <div className="py-12 px-6">
           { filter && (<h2 className="text-2xl font-semibold mb-6 text-orange-600 dark:text-orange-400">{ filter }</h2>) }
           <div className="grid grid-cols-2 md:grid-cols-4 gap-6">
-            {products?.length > 0 ? products?.map(product => (<ProductCard key={product?.productId} product={product} onAddToCart={handleAddToCart} />)) : <div>{ message }</div> }
+            {products.length > 0 ? products?.map(product => (<ProductCard key={product?.productId} product={product} onAddToCart={handleAddToCart} />)) : <div>{ message }</div> }
           </div>
         </div>
       </section>

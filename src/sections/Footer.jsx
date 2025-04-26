@@ -6,9 +6,9 @@ const Footer = () => {
       <div className="max-w-6xl mx-auto grid grid-cols-1 md:grid-cols-3 gap-10">
         {/* About */}
         <div>
-          <h3 className="text-xl font-bold mb-4 text-orange-600 dark:text-orange-400">About Metro Shop</h3>
+          <h3 className="text-xl font-bold mb-4 text-orange-600 dark:text-orange-400">About Metro</h3>
           <p className="text-sm leading-relaxed text-gray-600 dark:text-gray-400">
-            Metro Shop is your go-to e-commerce destination. We offer a wide variety of high-quality products
+            Metro is your go-to e-commerce destination. We offer a wide variety of high-quality products
             with unbeatable deals and reliable delivery.
           </p>
         </div>
@@ -38,7 +38,7 @@ const Footer = () => {
 
       {/* Bottom Bar */}
       <div className="mt-12 text-center text-xs text-gray-500 dark:text-gray-600 border-t border-gray-200 dark:border-gray-700 pt-6">
-        &copy; {new Date().getFullYear()} Metro Shop. All rights reserved.
+        &copy; {new Date().getFullYear()} Metro. All rights reserved.
       </div>
     </footer>
   );

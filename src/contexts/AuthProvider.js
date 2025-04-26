@@ -1,6 +1,6 @@
 import React, { createContext, useState, useEffect } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
-import { login, logout } from '../services/auth.service';
+import { login, logoutBackendApi } from '../services/auth.service';
 
 const AuthContext = createContext();
 
@@ -43,7 +43,7 @@ export const AuthProvider = ({ children }) => {
   }
 
   const logout_user = async () => {
-    await logout().then((res) => {
+    await logoutBackendApi().then((res) => {
       if (res?.status === 200) {
         return setSuccessMsg(res?.data);
       }

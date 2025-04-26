@@ -5,10 +5,11 @@ import ProductReviews from '../components/Product/ProductReviews';
 import RelatedProducts from '../components/Product/RelatedProducts';
 import ProductDetails from '../components/Product/ProductDetails'
 import NavBar from '../components/NavBar'
-import { getProductById, getProducts } from '../services/products.service';
+import { deleteProductById, getProductById, getProducts } from '../services/products.service';
 import { useDispatch, useSelector } from 'react-redux';
 import { addItem } from '../slices/cartSlice';
 import toast from 'react-hot-toast';
+import { ROLES } from '../roles';
 
 const ProductDetailsPage = () => {
   const [product, setProduct] = useState(null);
@@ -16,14 +17,27 @@ const ProductDetailsPage = () => {
   const productId = searchParams.get('id');
 
   const cartItems = useSelector((state) => state?.cart?.items);
+  const user = useSelector(state => state?.auth?.user);
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
   const handleAddToCart = (product) => {
-    const productPrice = product?.price - ((product?.percent_discount / 100) * product?.price);
-    dispatch(addItem({ productId: product?.productId, name: product?.name, price: productPrice, quantity: 1 }));
+    const discountedPrice = product?.price - ((product?.percent_discount / 100) * product?.price);
+    dispatch(addItem({ productId: product?.productId, name: product?.name, price: discountPrice, quantity: 1 }));
     toast.success(`${product?.name} has been added to your cart!`);
   };
+
+  const handleDelete = async (id) => {
+    if (id !== null && id !== undefined && id !== "") {
+      await deleteProductById(id).then(res => {
+        toast.success(res?.data);
+        console.log(res?.data);
+      }).catch(err => {
+        toast.error(err?.message);
+        console.error(err?.message);
+      });
+    }
+  } 
 
   useEffect(() => {
     const fetchProduct = async () => {
@@ -128,13 +142,27 @@ const ProductDetailsPage = () => {
               </p>
             </div>
 
-            <button
-              onClick={() => handleAddToCart(product)}
-              disabled={product?.stock === 0}
-              className={`bg-orange-500 text-white text-sm font-medium px-6 py-3 rounded-full hover:bg-orange-600 transition-all duration-300 shadow ${product?.stock === 0 ? 'opacity-50 cursor-not-allowed' : ''}`}
-            >
-              {product?.stock === 0 ? 'Out of Stock' : 'Add to Cart'}
-            </button>
+            <div className="flex flex-col gap-3">
+                <button
+                  onClick={() => handleAddToCart(product)}
+                  disabled={product?.stock === 0}
+                  className={`bg-orange-500 text-white text-sm font-medium px-6 py-3 rounded-full hover:bg-orange-600 transition-all duration-300 shadow ${product?.stock === 0 ? 'opacity-50 cursor-not-allowed' : ''}`}
+                >
+                  {product?.stock === 0 ? 'Out of Stock' : 'Add to Cart'}
+              </button>
+              
+              {user?.roles?.includes(ROLES.USER) && (
+                <button
+                  onClick={() => handleDelete(product?.productId)}
+                  className="bg-red-500 text-white text-sm font-medium px-6 py-3 rounded-full hover:bg-red-600 transition-all duration-300 shadow"
+                >
+                  Delete
+                </button>
+              )}
+              </div>
+
+
+
           </div>
         </div>
 

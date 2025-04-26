@@ -1,6 +1,13 @@
 import AxiosConfig from "../axiosConfig";
 
 
+
+// AddProduct
+export const addProduct = async (productData) => {
+  return await AxiosConfig.productsAxiosInstance.post('', productData);
+}
+
+
 // Get all products and/or with optional filters
 export const getProducts = async ({ id, category, isFeatured }) => {
   const params = {};
@@ -25,7 +32,7 @@ export const getFavoriteProducts = async (userId) => {
 // Get single product using a request param id
 // Use getProducts with param id
 export const getProductById = async (id) => {
-  if (id !== null && id !== "") {
+  if (id !== null && id !== undefined && id !== "") {
     const params = {}
     params.id = id;
     return await AxiosConfig.productsAxiosInstance.get('', { params });
@@ -34,5 +41,5 @@ export const getProductById = async (id) => {
 
 // Delete product using path variable `id`
 export const deleteProductById = async (id) => {
-  return await AxiosConfig.productsAxiosInstance.delete(`/${id}`);
+  if (id !== undefined && id !== null && id !== "") return await AxiosConfig.productsAxiosInstance.delete(`/${id}`);
 };

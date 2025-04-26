@@ -9,7 +9,7 @@ module.exports = function (app) {
         createProxyMiddleware({
             target: "https://localhost:9097", // user service backend url
             changeOrigin: true,
-            secure: true, // only in development
+            secure: false, // only in development
         })
     );
 }

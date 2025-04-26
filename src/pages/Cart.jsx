@@ -12,8 +12,7 @@ const Cart = () => {
     const cartTotals = cartItems?.reduce((sum, item) => sum + item?.price * item?.quantity, 0);
 
     const handleCheckout = async () => {
-        toast.success('Proceeding to checkout...');
-        navigate('/checkout');
+        
     }
 
     const handleClearCart = async () => {
@@ -22,7 +21,7 @@ const Cart = () => {
     }
 
     return (
-        <div className='max-w-xl mx-auto mt-10 p-6 bg-white dark:bg-gray-900 rounded-2xl shadow-lg sm:px-8 sm:py-10'>
+        <div className='max-w-xl mx-auto mt-10 p-6 bg-white dark:bg-gray-800 rounded-2xl shadow-lg sm:px-8 sm:py-10'>
             <h2 className='text-2xl font-bold text-orange-600 dark:text-orange-400 mb-6 text-center'>Your cart</h2>
             {(cartItems?.length > 0) && (
                 <>
@@ -53,7 +52,7 @@ const Cart = () => {
 
                     <div className='mt-6 space-y-3'>
                         <button
-                            onClick={handleCheckout}
+                            onClick={() => navigate('/checkout')}
                             className='w-full py-2 bg-green-600 text-white rounded  hover:bg-green-700 transition'
                         >
                             Proceed to Checkout

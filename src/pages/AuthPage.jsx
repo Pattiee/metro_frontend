@@ -1,6 +1,9 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { login, register } from '../services/auth.service';
+import { useDispatch } from 'react-redux';
+import { checkAuth } from '../slices/authSlice';
+
 import toast from 'react-hot-toast';
 
 const AuthPage = () => {
@@ -11,6 +14,7 @@ const AuthPage = () => {
   const [errorMessage, setErrorMessage] = useState('');
   const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
+  const dispatch = useDispatch();
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -21,9 +25,11 @@ const AuthPage = () => {
       if (isLogin) {
         await login({ username, password }).then((res) => {
           toast.success("Login success");
+          dispatch(checkAuth());
           console.log("Login success: ", res.data);
           navigate('/');
         }).catch((loginErr) => {
+          console.log(loginErr?.message);
           toast.error(loginErr?.message ?? "Something went wrong.");
           setErrorMessage(loginErr?.message ?? "Login failed");
         });

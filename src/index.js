@@ -3,9 +3,9 @@ import ReactDOM from 'react-dom/client';
 import './index.css';
 import App from './App';
 import { Provider, useSelector } from 'react-redux';
-import { store } from './store'
 import { AuthProvider } from './contexts/AuthProvider';
 import { BrowserRouter } from 'react-router-dom';
+import { initApp } from './store';
 
 
 // ThemeWrapper component
@@ -19,18 +19,20 @@ const ThemeWrapper = ({ children }) => {
   return children;
 }
 
-const root = ReactDOM.createRoot(document.getElementById('root'));
+initApp().then((store) => {
+  const root = ReactDOM.createRoot(document.getElementById('root'));
 
-root.render(
-  <React.StrictMode>
-    <Provider store={store}>
-      <ThemeWrapper>
-        <BrowserRouter>
-          <AuthProvider>
-            <App />
-          </AuthProvider>
-        </BrowserRouter>
-      </ThemeWrapper>
-    </Provider>
-  </React.StrictMode>
-);
+  root.render(
+    <React.StrictMode>
+      <Provider store={store}>
+        <ThemeWrapper>
+          <BrowserRouter>
+            <AuthProvider>
+              <App />
+            </AuthProvider>
+          </BrowserRouter>
+        </ThemeWrapper>
+      </Provider>
+    </React.StrictMode>
+  );
+});

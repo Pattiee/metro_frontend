@@ -1,10 +1,10 @@
-import { userAxiosInstance } from "../axiosConfig"
+import AxiosConfig from "../axiosConfig"
 
-const getAllUsers = async () => await userAxiosInstance.get();
+export const getAllUsers = async () => await AxiosConfig.userAxiosInstance.get();
 
-const getUserByIdAndEmail = async (userId) => await userAxiosInstance.get("?id=" + userId);
+export const getUserByIdAndEmail = async (userId) => await AxiosConfig.userAxiosInstance.get("?id=" + userId);
 
-const UserService = {
-    getAllUsers,
-    getUserByIdAndEmail }
-export default UserService;
+// const UserService = {
+//     getAllUsers,
+//     getUserByIdAndEmail }
+// export default UserService;

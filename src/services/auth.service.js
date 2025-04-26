@@ -5,6 +5,6 @@ export const register = async (registrationRequest) => await AxiosConfig.authAxi
 
 export const login = async (loginRequest) => await AxiosConfig.authAxiosInstance.post('/login', loginRequest);
 
-export const logout = async () => await AxiosConfig.authAxiosInstance.post("/logout");
+export const logoutBackendApi = async () => await AxiosConfig.authAxiosInstance.post("/logout");
 
 export const getCurrentUser = async () => await AxiosConfig.authAxiosInstance.get('/me');
