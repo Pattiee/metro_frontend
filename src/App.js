@@ -2,12 +2,13 @@ import React, { useEffect } from 'react';
 import { Routes, Route, useLocation } from 'react-router-dom';
 import { useAuth } from './hooks/useAuth';
 import { ROLES } from './roles'
-import { useDispatch, useSelector } from 'react-redux';
+import { useDispatch } from 'react-redux';
 import { Toaster } from 'react-hot-toast';
 import { checkAuth } from './slices/authSlice';
 // import { fet };
 import ProtectedRoute from './utils/ProtectedRoute';
 import FloatingCart from './components/FloatingCart'
+import FloatingCheckoutButton from './components/FloatingCheckoutButton'
 
 // Pages
 import Home from './pages/Home';
@@ -21,18 +22,19 @@ import Cart from './pages/Cart';
 import AdminLayout from './layouts/AdminLayout'
 import AddProduct from './pages/admin/AddProduct';
 import UsersPage from './pages/admin/UsersPage';
-import UpdateUser from './pages/admin/UpdateUser';
+import UserDetailsPage from './pages/admin/UserDetailsPage'
 
 
 const App = () => {
   // const { user } = useAuth();
   const { pathname } = useLocation();
   const hideCartOn = ['/auth', '/cart', '/checkout', '/admin/*'];
+  const showFloatingCheckoutButton = ['/cart'];
   const dispatch = useDispatch();
   
   useEffect(() => {
     dispatch(checkAuth());
-  }, [dispatch]);
+  }, [dispatch]);                                                                                                                                                                                                                                                                                                                                                                                                           
 
   return (
     <div className="relative min-h-screen bg-gray-100 dark:bg-gray-900 text-gray-900">
@@ -43,34 +45,29 @@ const App = () => {
         <Route path='/auth' element={<AuthPage />} />
         <Route path="/product" element={<ProductDetailsPage />} />
         <Route path='/checkout' element={ <Checkout/> } />
-        <Route path='/cart' element={ <Cart/> } />
+        <Route path='/cart' element={<Cart />} />
         
         {/* Protected routes */}
         {/* <Route path='/admin/users' element={ <ProtectedRoute children={<UsersPage/>} roles={[ROLES.ADMIN]}/> } /> */}
 
+        {/* ROLES.ADMIN NOT USER */}
         <Route path='/admin' element={
-            <ProtectedRoute roles={[ROLES.USER]}>
+            <ProtectedRoute roles={[ROLES.ADMIN]}>
               <AdminLayout/>
             </ProtectedRoute>}
         >
           <Route index element={<AdminDashboard />} />
-          <Route path="add_products" element={<AddProduct />} />
+          <Route path="add-products" element={<AddProduct />} />
           <Route path="users" element={<UsersPage />} />
-          <Route path="update_user" element={<UpdateUser />} />
+          <Route path='user' element={ <UserDetailsPage/> } />
         </Route>
 
-        {/* <Route path='/user' element={
-          <ProtectedRoute roles={[ROLES.USER]}>
-            <Routes>
-              <Route path='/' element={ <AccountInfo/> } />
-            </Routes>
-          </ProtectedRoute>}>
-        </Route> */}
-      </Routes>
-
+        <Route path='*' element={ <NotFound/> } />
+        
+      </Routes> 
       
-
-      {!hideCartOn.includes(pathname) && <FloatingCart/>}
+      {!hideCartOn.includes(pathname) && <FloatingCart />}
+      {showFloatingCheckoutButton.includes(pathname) && <FloatingCheckoutButton/>}
     </div>
   );
 };

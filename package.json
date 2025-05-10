@@ -1,5 +1,5 @@
 {
-  "name": "metro",
+  "name": "syncro",
   "version": "0.1.0",
   "private": true,
   "dependencies": {
@@ -27,15 +27,7 @@
   "scripts": {
     "start": "react-scripts start",
     "build": "react-scripts build",
-    "test": "react-scripts test",
-    "eject": "react-scripts eject"
-  },
-  "proxy": "https://localhost:9097",
-  "eslintConfig": {
-    "extends": [
-      "react-app",
-      "react-app/jest"
-    ]
+    "test": "react-scripts test"
   },
   "browserslist": {
     "production": [
@@ -53,5 +45,17 @@
     "autoprefixer": "^10.4.21",
     "postcss": "^8.5.3",
     "tailwindcss": "^3.4.17"
-  }
+  },
+  "description": "Frontend web app for syncro",
+  "main": "app.js",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Pattiee/metro_frontend.git"
+  },
+  "author": "Patrick Koros",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Pattiee/metro_frontend/issues"
+  },
+  "homepage": "https://github.com/Pattiee/metro_frontend#readme"
 }

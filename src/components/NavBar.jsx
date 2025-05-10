@@ -37,69 +37,52 @@ const Navbar = () => {
           ${theme === 'light' ? 'bg-orange-500 text-white shadow-md' : 'bg-gray-900 text-white shadow-lg'}
         `}
       >
-        <div>
-            <div className="flex justify-between items-center px-6 py-4">
-            {/* Logo */}
-            <div className="text-xl font-bold">
-              <Link to="/" className="hover:opacity-80 transition">Metro</Link>
-            </div>
+          <div className="flex justify-between items-center px-6 py-4">
+          {/* Logo */}
+          <div className="text-xl font-bold">
+            <Link to="/" className="hover:opacity-80 transition">Metro</Link>
+          </div>
 
-            {/* Desktop Links */}
-            <div className="flex-col">
-              <div className='hidden md:flex items-center space-x-6 text-sm font-medium'>
-                {user?.roles?.includes(ROLES.ADMIN) && (
-                  <Link to="/admin" className="hover:underline">Admin Panel</Link>
-                )}
-                <Link to="/admin/users" className="hover:underline">Users</Link>
-                <Link to="/about-us" className="hover:underline">About us</Link>
-              </div>
-            </div>
-
-            {/* Right Section */}
-            <div className="flex items-center gap-4">
-              {/* Theme Toggle */}
-              <button
-                onClick={() => dispatch(toggleTheme())}
-                className={`p-2 rounded-full transition
-                  ${theme === 'light' ? 'bg-white text-orange-600 hover:bg-orange-100' : 'bg-gray-800 text-white hover:bg-gray-700'}
-                `}
-              >
-                {theme === 'light' ? <Moon size={18} /> : <Sun size={18} />}
-              </button>
-
-              {/* User or Login */}
-              {user?.username ? (
-                <span className="text-sm font-bold">{ user.username }</span>
-              ) : (
-                <Link
-                  to="/auth"
-                  className="bg-white text-orange-600 px-4 py-2 rounded-full text-sm font-semibold hover:bg-orange-100 transition"
-                >
-                  Login
-                </Link>
+          {/* Desktop Links */}
+          <div className="flex-col">
+            <div className='hidden md:flex items-center space-x-6 text-sm font-medium'>
+              {user?.roles?.includes(ROLES.ADMIN) && (
+                <Link to="/admin" className="hover:underline">Admin Panel</Link>
               )}
-
-              {/* Mobile Menu Toggle */}
-              <div className="md:hidden">
-                <button onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}>
-                  {isMobileMenuOpen ? <X size={24} /> : <Menu size={24} />}
-                </button>
-              </div>
             </div>
           </div>
 
-          {/* Admin only nav */}
-          {user?.roles?.includes(ROLES.USER) && (
-            <div className="flex justify-center items-center px-6 py-4">
-              <div className='flex-col'>
-                <div className='hidden md:flex items-center space-x-6 text-sm font-medium'>
-                  <Link to="/admin" className="hover:underline">Admin panel</Link>
-                  <Link to="/admin/add_products" className="hover:underline">Add products</Link>
-                  <Link to="/about-us" className="hover:underline">About us</Link>
-                </div>
-              </div>
+          {/* Right Section */}
+          <div className="flex items-center gap-4">
+            {/* Theme Toggle */}
+            <button
+              onClick={() => dispatch(toggleTheme())}
+              className={`p-2 rounded-full transition
+                ${theme === 'light' ? 'bg-white text-orange-600 hover:bg-orange-100' : 'bg-gray-800 text-white hover:bg-gray-700'}
+              `}
+            >
+              {theme === 'light' ? <Moon size={18} /> : <Sun size={18} />}
+            </button>
+
+            {/* User or Login */}
+            {user?.username ? (
+              <span className="text-sm font-bold">{ user.username }</span>
+            ) : (
+              <Link
+                to="/auth"
+                className="bg-white text-orange-600 px-4 py-2 rounded-full text-sm font-semibold hover:bg-orange-100 transition"
+              >
+                Login
+              </Link>
+            )}
+
+            {/* Mobile Menu Toggle */}
+            <div className="md:hidden">
+              <button onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}>
+                {isMobileMenuOpen ? <X size={24} /> : <Menu size={24} />}
+              </button>
             </div>
-          )}
+          </div>
         </div>
 
         {/* Mobile Menu */}

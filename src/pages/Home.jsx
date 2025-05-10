@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useCallback } from 'react';
 import { Link } from 'react-router-dom';
 import Footer from '../sections/Footer';
 import Hero from '../sections/Hero'
@@ -23,58 +23,57 @@ const Home = () => {
   const cartItems = useSelector((state) => state?.cart?.items);
   const dispatch = useDispatch();
 
+  const handleAddToCart = useCallback((product) => {
+    const discounted = product?.percent_discount > 0;
+    const productPrice = discounted
+      ? product.price - ((product.percent_discount / 100) * product.price)
+      : product.price;
+
+    dispatch(addItem({ id: product.productId, name: product.name, price: productPrice, imageUrl: product.imageUrl }));
+  }, [dispatch]);
+
+
   const loadProducts = async () => {
-    setMessage("Loading...");
-    await getProducts({}).then(res => {
-      setProducts(res.data);
-    }).catch(err => {
-      console.error("ERROR: " + err);
-    }).finally(() => {
-      setLoading(false);
-      if (products.length <= 0) {
+    await getProducts({ category: filter ?? null }).then(res => {
+      const fetched = res.data;
+      setProducts(fetched);
+      if (!fetched || fetched.length <= 0) {
         setMessage("No products found");
       } else {
         setMessage('');
       }
+    }).catch(err => {
+      console.error("ERROR: " + err);
+    }).finally(() => {
+      setLoading(false);
     });
   }
 
-  const handleFilter = async (e, category) => {
-    if (filter.toLocaleLowerCase() === category.toLowerCase()) {
-      setFilter('');
-      loadProducts();
-      return;
-    } else {
-      setMessage("Loading...");
-      await getProducts({ category: category }).then(res => {
-        setProducts(res.data);
-        setFilter(category);
-      }).catch(err => {
-        console.error("ERROR: " + err);
-      }).finally(() => {
-        setLoading(false);
-        if (products.length <= 0) {
-          setMessage("No products found");
-        } else {
-          setMessage('');
-        }
-      });
-    }
-  }
+  const handleUpdateFilter = (e, category) => {
+  const current = (filter ?? '').trim().toLowerCase();
+  const selected = category.trim().toLowerCase();
+  setFilter(current === selected ? '' : category);
+};
+
 
   useEffect(() => {
     loadProducts();
   }, []);
 
-  // if (loading){
-  //      return <div>Loading data...</div>
-  // }
+  if (loading) return <div>{loading && <Loader />}</div>
 
   // Handle add product to cart
-  const handleAddToCart = (product) => {
-    const productPrice = product?.price - ((product?.percent_discount / 100) * product?.price);
-    dispatch(addItem({ productId: product?.productId, name: product?.name, price: productPrice, quantity: 1 }))
-  };
+  // const handleAddToCart = (product) => {
+  //   const discounted = product?.percent_discount !== null && product?.percent_discount !== undefined && product?.percent_discount > 0;
+  //   let productPrice;
+  //   if (discounted) {
+  //     productPrice = product?.price - ((product?.percent_discount / 100) * product?.price);
+  //   } else {
+  //     productPrice = product.price;
+  //   }
+  //   dispatch(addItem({ productId: product.productId, name: product.name, price: productPrice, imageUrl: product?.imageUrl}))
+  // };
+
 
 
   return (
@@ -109,7 +108,9 @@ const Home = () => {
             <section className="py-12 px-6 bg-gray-50 dark:bg-gray-800">
               <h2 className="text-2xl font-semibold mb-6 text-orange-600 dark:text-orange-400">Your Favourites</h2>
               <div className="grid grid-cols-2 md:grid-cols-4 gap-6">
-                {favoriteProducts?.length > 0 ? products?.map(product => (<ProductCard key={product?.productId} product={product} onAddToCart={handleAddToCart} />)) : <div>{ message }</div>}
+                {favoriteProducts?.length > 0
+                  ? favoriteProducts.map(favorite => (<ProductCard key={favorite?.productId} product={favorite} onAddToCart={handleAddToCart} />))
+                  : <div>{message}</div>}
               </div>
             </section>
           )
@@ -124,14 +125,14 @@ const Home = () => {
           {['Clothing', 'Electronics', 'Furniture', 'Beauty'].map((category, idx) => (
             <button
               key={idx}
-              onClick={(e) => handleFilter(e, category)}
+              onClick={(e) => handleUpdateFilter(e, category)}
               className={`flex px-6 py-3 rounded-full font-medium transition hover:bg-orange-200 dark:hover:bg-orange-700 cursor-pointer ${filter === category
                 ? 'bg-orange-500 text-white dark:bg-orange-400 dark:text-black'
                 : 'bg-orange-100 text-orange-700 dark:bg-gray-700 dark:text-orange-300'
                 }`}
             >
               {category}
-              {filter === category && (<p className='px-2'>{products.length}</p>)}
+              {products.length > 0 && (<p className='px-2'>{products.length}</p>)}
             </button>
           ))}
         </div>
@@ -140,7 +141,10 @@ const Home = () => {
         <div className="py-12 px-6">
           { filter && (<h2 className="text-2xl font-semibold mb-6 text-orange-600 dark:text-orange-400">{ filter }</h2>) }
           <div className="grid grid-cols-2 md:grid-cols-4 gap-6">
-            {products.length > 0 ? products?.map(product => (<ProductCard key={product?.productId} product={product} onAddToCart={handleAddToCart} />)) : <div>{ message }</div> }
+            {products.length > 0
+              ? products.filter(product => !product.featured).map(product => (<ProductCard key={product.productId} product={product} onAddToCart={handleAddToCart} />))
+              : <div>{message}</div>
+            }
           </div>
         </div>
       </section>

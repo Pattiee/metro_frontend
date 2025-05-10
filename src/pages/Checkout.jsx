@@ -1,6 +1,35 @@
 import React from 'react';
+import toast from 'react-hot-toast';
+import { placeOrder } from '../slices/cartSlice'
+import { useNavigate } from 'react-router-dom';
+import { useSelector } from 'react-redux';
+import { createNewOrder } from '../services/order.service';
 
 const CheckoutPage = () => {
+  const username = useSelector(state => state.auth?.user.username);
+  const cartItems = useSelector(state => state.cart?.items);
+
+  const handlePlaceOrder = async () => {
+    if(!username || !cartItems) toast.error("Error placing order.")
+    const data = {}
+    
+    data.username = username;
+    data.items = cartItems;
+    data.shippingAddress = {};
+
+    data.shippingAddress.addressId = "1234567890";
+    data.shippingAddress.city = "Eldoret";
+    data.shippingAddress.zip = "3160";
+    data.shippingAddress.country = "Kenya";
+
+    // if (data.username && data.items && data.shippingAddress) placeOrder(data);
+    await createNewOrder(data).then(res => {
+      toast.success("Order created successfully");
+    }).catch(err => {
+      toast.error(err?.message || "Unknown error occured")
+    })
+  }
+
   return (
     <div className="min-h-screen bg-gray-100 dark:bg-gray-900 py-10 px-6">
       <div className="max-w-4xl mx-auto bg-white dark:bg-gray-800 p-6 rounded-lg shadow-md">
@@ -99,7 +128,10 @@ const CheckoutPage = () => {
         </div>
 
         {/* Checkout Button */}
-        <button className="w-full bg-primary dark:bg-primary-600 text-white py-3 mt-8 rounded-lg hover:bg-primary-600 dark:hover:bg-primary-700 transition">
+        <button
+          onClick={handlePlaceOrder}
+          className="w-full bg-primary dark:bg-primary-600 text-white py-3 mt-8 rounded-lg hover:bg-primary-600 dark:hover:bg-primary-700 transition"
+        >
           Complete Checkout
         </button>
       </div>

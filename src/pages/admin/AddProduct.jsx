@@ -11,7 +11,7 @@ const AddProduct = () => {
     category: '',
     percent_discount: 0,
     image_url: '',
-    retail_price: '',
+    price: 0,
     condition: 'New',
     desc: '',
     featured: false,
@@ -20,11 +20,16 @@ const AddProduct = () => {
 
   const handleChange = (e) => {
     const { name, value, type, checked } = e.target;
+    if ((type === 'number' && value < 0)) return;
     setForm(prev => ({ ...prev, [name]: type === 'checkbox' ? checked : value, }));
   };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    if (form.percent_discount < 0 || form.stock <= 0 || form.price <= 0) {
+      toast.error("Invalid number values.");
+      return;
+    }
     try {
       await addProduct(form).then((res) => {
         toast.success('✅ Product added successfully!');
@@ -34,7 +39,7 @@ const AddProduct = () => {
           category: '',
           percent_discount: 0,
           image_url: '',
-          retail_price: '',
+          price: 0,
           condition: 'New',
           desc: '',
           featured: false,
@@ -49,7 +54,7 @@ const AddProduct = () => {
   };
 
   return (
-    <div className="bg-gray-50 dark:bg-gray-900 p-6 sm:p-8 md:p-10 lg:p-12 max-w-4xl mx-auto rounded-lg shadow-xl">
+    <div className="bg-white dark:bg-gray-900 p-6 sm:p-8 md:p-10 lg:p-12 max-w-4xl mx-auto rounded-lg shadow-xl">
       <h2 className="text-4xl font-semibold text-center text-orange-600 dark:text-orange-400 mb-8">
         Add New Product
       </h2>
@@ -62,7 +67,7 @@ const AddProduct = () => {
             value={form.name}
             onChange={handleChange}
             placeholder="Product Name"
-            className="w-full p-4 rounded-lg border-2 border-gray-300 dark:bg-gray-800 dark:border-gray-700 dark:text-white text-lg focus:outline-none focus:ring-2 focus:ring-orange-500"
+            className="w-full p-4 rounded-lg border-2 border-gray-300 bg-white dark:bg-gray-800 dark:border-gray-700 dark:text-white text-lg focus:outline-none focus:ring-2 focus:ring-orange-500"
             required
           />
           <input
@@ -71,7 +76,7 @@ const AddProduct = () => {
             value={form.category}
             onChange={handleChange}
             placeholder="Category"
-            className="w-full p-4 rounded-lg border-2 border-gray-300 dark:bg-gray-800 dark:border-gray-700 dark:text-white text-lg focus:outline-none focus:ring-2 focus:ring-orange-500"
+            className="w-full p-4 rounded-lg border-2 border-gray-300 bg-white dark:bg-gray-800 dark:border-gray-700 dark:text-white text-lg focus:outline-none focus:ring-2 focus:ring-orange-500"
             required
           />
         </div>
@@ -83,7 +88,7 @@ const AddProduct = () => {
             value={form.percent_discount}
             onChange={handleChange}
             placeholder="Discount (%)"
-            className="w-full p-4 rounded-lg border-2 border-gray-300 dark:bg-gray-800 dark:border-gray-700 dark:text-white text-lg focus:outline-none focus:ring-2 focus:ring-orange-500"
+            className="w-full p-4 rounded-lg border-2 border-gray-300 bg-white dark:bg-gray-800 dark:border-gray-700 dark:text-white text-lg focus:outline-none focus:ring-2 focus:ring-orange-500"
           />
           <input
             type="text"
@@ -91,7 +96,7 @@ const AddProduct = () => {
             value={form.image_url}
             onChange={handleChange}
             placeholder="Image URL"
-            className="w-full p-4 rounded-lg border-2 border-gray-300 dark:bg-gray-800 dark:border-gray-700 dark:text-white text-lg focus:outline-none focus:ring-2 focus:ring-orange-500"
+            className="w-full p-4 rounded-lg border-2 border-gray-300 bg-white dark:bg-gray-800 dark:border-gray-700 dark:text-white text-lg focus:outline-none focus:ring-2 focus:ring-orange-500"
             required
           />
         </div>
@@ -99,18 +104,18 @@ const AddProduct = () => {
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
           <input
             type="number"
-            name="retail_price"
-            value={form.retail_price}
+            name="price"
+            value={form.price}
             onChange={handleChange}
-            placeholder="Retail Price"
-            className="w-full p-4 rounded-lg border-2 border-gray-300 dark:bg-gray-800 dark:border-gray-700 dark:text-white text-lg focus:outline-none focus:ring-2 focus:ring-orange-500"
+            placeholder="Price"
+            className="w-full p-4 rounded-lg border-2 border-gray-300 bg-white dark:bg-gray-800 dark:border-gray-700 dark:text-white text-lg focus:outline-none focus:ring-2 focus:ring-orange-500"
             required
           />
           <select
             name="condition"
             value={form.condition}
             onChange={handleChange}
-            className="w-full p-4 rounded-lg border-2 border-gray-300 dark:bg-gray-800 dark:border-gray-700 dark:text-white text-lg focus:outline-none focus:ring-2 focus:ring-orange-500"
+            className="w-full p-4 rounded-lg border-2 border-gray-300 bg-white dark:bg-gray-800 dark:border-gray-700 dark:text-white text-lg focus:outline-none focus:ring-2 focus:ring-orange-500"
           >
             <option value="New">New</option>
             <option value="Refurbished">Refurbished</option>
@@ -122,7 +127,7 @@ const AddProduct = () => {
           value={form.desc}
           onChange={handleChange}
           placeholder="Product Description"
-          className="w-full p-4 rounded-lg border-2 border-gray-300 dark:bg-gray-800 dark:border-gray-700 dark:text-white text-lg focus:outline-none focus:ring-2 focus:ring-orange-500 h-32 resize-none"
+          className="w-full p-4 rounded-lg border-2 border-gray-300 bg-white dark:bg-gray-800 dark:border-gray-700 dark:text-white text-lg focus:outline-none focus:ring-2 focus:ring-orange-500 h-32 resize-none"
           required
         />
 
@@ -145,7 +150,7 @@ const AddProduct = () => {
           value={form.stock}
           onChange={handleChange}
           placeholder="Stock"
-          className="w-full p-4 rounded-lg border-2 border-gray-300 dark:bg-gray-800 dark:border-gray-700 dark:text-white text-lg focus:outline-none focus:ring-2 focus:ring-orange-500"
+          className="w-full p-4 rounded-lg border-2 border-gray-300 bg-white dark:bg-gray-800 dark:border-gray-700 dark:text-white text-lg focus:outline-none focus:ring-2 focus:ring-orange-500"
           required
         />
 

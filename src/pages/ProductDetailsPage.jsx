@@ -28,14 +28,16 @@ const ProductDetailsPage = () => {
   };
 
   const handleDelete = async (id) => {
-    if (id !== null && id !== undefined && id !== "") {
-      await deleteProductById(id).then(res => {
-        toast.success(res?.data);
-        console.log(res?.data);
-      }).catch(err => {
-        toast.error(err?.message);
-        console.error(err?.message);
-      });
+    if (user?.roles?.includes(ROLES.ADMIN)) {
+      if (id !== null && id !== undefined && id !== "") {
+        await deleteProductById(id).then(res => {
+          toast.success(res?.data);
+          console.log(res?.data);
+        }).catch(err => {
+          toast.error(err?.message);
+          console.error(err?.message);
+        });
+      }
     }
   } 
 
@@ -151,7 +153,7 @@ const ProductDetailsPage = () => {
                   {product?.stock === 0 ? 'Out of Stock' : 'Add to Cart'}
               </button>
               
-              {user?.roles?.includes(ROLES.USER) && (
+              {(user && user?.roles?.includes(ROLES.ADMIN)) && (
                 <button
                   onClick={() => handleDelete(product?.productId)}
                   className="bg-red-500 text-white text-sm font-medium px-6 py-3 rounded-full hover:bg-red-600 transition-all duration-300 shadow"

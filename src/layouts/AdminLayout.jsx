@@ -10,9 +10,9 @@ const AdminLayout = () => {
         <h2 className="text-2xl font-bold mb-6">Admin Panel</h2>
         <nav className="flex flex-col gap-4">
           <Link to="/admin" className="hover:underline">Dashboard</Link>
-          <Link to="/admin/add_products" className="hover:underline">Add Products</Link>
+          <Link to="/admin/add-products" className="hover:underline">Add Products</Link>
           <Link to="/admin/users" className="hover:underline">Users</Link>
-          <Link to="/admin/update_user" className="hover:underline">Update User</Link>
+          <Link to="/admin/update-user" className="hover:underline">Update User</Link>
         </nav>
       </aside>
 

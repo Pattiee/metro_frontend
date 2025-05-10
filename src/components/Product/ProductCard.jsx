@@ -8,9 +8,9 @@ const ProductCard = ({ product, onAddToCart }) => {
   const [progress, setProgress] = useState(100);
   const [offerExpired, setOfferExpired] = useState(false);
 
-  const discountPrice = useMemo(() => {
+  const discountedPrice = useMemo(() => {
     const discounted = product?.percent_discount > 0;
-    if (discounted) return (product.price - product.price * (product.percent_discount / 100)).toFixed(2);
+    if (discounted) return (product.price - (product.price * (product.percent_discount / 100))).toFixed(2);
     return product?.price?.toFixed(2);
   }, [product]);
 
@@ -48,8 +48,7 @@ const ProductCard = ({ product, onAddToCart }) => {
 
   const handleCardClick = () => {
     const targetProductId = (product?.productId == null || product?.productId === "") ? null : product?.productId;
-    if (targetProductId == null) return null;
-    navigate(`/product?id=${targetProductId}`);
+    if (targetProductId != null) navigate(`/product?id=${targetProductId}`);
   };
 
   const handleAddToCart = (e) => {
@@ -98,7 +97,7 @@ const ProductCard = ({ product, onAddToCart }) => {
           {product?.percent_discount > 0 && (
             <p className="text-sm text-gray-400 line-through dark:text-gray-600">${product?.price.toFixed(2)}</p>
           )}
-          <p className="font-bold text-orange-500 text-lg dark:text-orange-400">${discountPrice}</p>
+          <p className="font-bold text-orange-500 text-lg dark:text-orange-400">${discountedPrice}</p>
         </div>
 
         {/* Countdown */}

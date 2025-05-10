@@ -44,8 +44,8 @@ export const initApp = async () => {
 
     // now check auth
     store.dispatch(checkAuth());
-
+    
     return store;
 };
 
-export const getStore = () => store;
+export const getStore = async () => store;

@@ -17,7 +17,6 @@ const Cart = () => {
 
     const handleClearCart = async () => {
         dispatch(clearCart());
-        toast.success('Cart cleared.');
     }
 
     return (
@@ -27,7 +26,8 @@ const Cart = () => {
                 <>
                     <ul className='space-y-5'>
                         {cartItems?.map(item => (
-                            <li key={item?.productId}
+                            <li key={item.id}
+                                onClick={() => navigate(`/product?id=${item.id}`)}
                                 className='flex justify-between items-center border-b pb-3 border-gray-200 dark:border-gray-700 transition-transform duration-300 hover:scale-[1.01]'
                             >
                                 <div>
@@ -37,7 +37,7 @@ const Cart = () => {
                                 </div>
 
                                 <button
-                                    onClick={() => dispatch(removeItem(item?.productId ?? 0))}
+                                    onClick={() => dispatch(removeItem(item?.id ?? 0))}
                                     className='text-red-500 hover:underline text-sm'
                                 >
                                     Remove
@@ -53,14 +53,14 @@ const Cart = () => {
                     <div className='mt-6 space-y-3'>
                         <button
                             onClick={() => navigate('/checkout')}
-                            className='w-full py-2 bg-green-600 text-white rounded  hover:bg-green-700 transition'
+                            className='w-full rounded-full py-2 bg-green-600 text-white  hover:bg-green-700 transition'
                         >
                             Proceed to Checkout
                         </button>
 
                         <button
                             onClick={() => handleClearCart()}
-                            className='w-full py-2 bg-red-500 text-white rounded hover:bg-red-600 transition'
+                            className='w-full py-2 bg-red-500 text-white rounded-full hover:bg-red-600 transition'
                         >
                             Clear cart
                         </button>
@@ -75,7 +75,7 @@ const Cart = () => {
             <div className='mt-6'>
                 <button
                     onClick={() => navigate('/')}
-                    className='w-full py-2 border border-orange-500 text-orange-600 dark:text-orange-400 rounded hover:bg-orange-100 dark:hover:bg-orange-900 transition'
+                    className='w-full py-2 border border-orange-500 text-orange-600 dark:text-orange-400 rounded-full hover:bg-orange-100 dark:hover:bg-orange-900 transition'
                 >
                     Continue Shopping
                 </button>
